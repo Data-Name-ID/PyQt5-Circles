@@ -1,16 +1,29 @@
 import sys
 
-from random import randint
-from PyQt5 import uic
+from random import randint, choice
+from UI import Ui_MainWindow
 from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5.QtGui import QColor, QPainter
 
 
-class Window(QMainWindow):
+class Window(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi('UI.ui', self)
+        self.setupUi(self)
         self.is_drawing = False
+        self.colors = [
+            'Red',
+            'Orange',
+            'Yellow',
+            'Green',
+            'Cyan',
+            'Blue',
+            'Magenta',
+            'Purple',
+            'Brown',
+            'Black',
+            'Pink',
+        ]
 
         self.pushButton.clicked.connect(self.result)
 
@@ -26,11 +39,16 @@ class Window(QMainWindow):
             qp.end()
 
     def drawing(self, qp):
-        qp.setBrush(QColor('yellow'))
+        qp.setBrush(QColor(choice(self.colors)))
 
         for _ in range(randint(10, 20)):
             leigt = randint(30, 100)
-            qp.drawEllipse(randint(0, self.width()), randint(0, self.height()), leigt, leigt)
+            qp.drawEllipse(
+                randint(0, self.width()),
+                randint(0, self.height()),
+                leigt,
+                leigt,
+            )
 
         self.is_drawing = False
         ex.show()
